@@ -1,0 +1,45 @@
+# Xcode & Swift project .gitignore
+
+## Build generated
+build/
+Build/
+DerivedData/
+*.moved-aside
+*.xccheckout
+*.xcscmblueprint
+
+## User data & Xcode user state
+xcuserdata/
+*.xcodeproj/xcuserdata/
+*.xcodeproj/project.xcworkspace/xcuserdata/
+*.xcworkspace/xcuserdata/
+*.workspaceuser
+
+## Swift Package Manager
+.swiftpm/
+.build/
+
+## CocoaPods / Carthage
+Pods/
+Carthage/Build/
+
+## macOS system files
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+## IDE & Editor files
+.vscode/
+.idea/
+*.swp
+*~
+
+## Temporary & Environment files
+*.tmp
+*.bak
+.env
+.env.local
