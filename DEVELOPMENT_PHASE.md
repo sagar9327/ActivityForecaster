@@ -10,11 +10,11 @@ The current phase is the source of truth for what should be implemented next.
 
 # Current Phase
 
-## Phase 3 — Domain Models & Suitability Engine
+## Phase 4 — Open-Meteo Networking
 
 **Status:** 🚧 In Progress
 
-Refer to the **Phase 3 — Domain Models & Suitability Engine** section under Implementation Sequence for detailed scope, testing requirements, and completion criteria.
+Refer to the **Phase 4 — Open-Meteo Networking** section under Implementation Sequence for detailed scope, testing requirements, and completion criteria.
 
 ---
 
@@ -62,6 +62,14 @@ Establish and verify the project foundation.
 ---
 
 ## Phase 3 — Domain Models & Suitability Engine
+
+**Status:** ✅ Completed
+
+Implement the core domain layer independently of SwiftUI, networking, and API response models.
+
+---
+
+## Phase 4 — Open-Meteo Networking
 
 **Status:** 🚧 In Progress
 
