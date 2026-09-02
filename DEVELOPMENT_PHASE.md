@@ -10,11 +10,11 @@ The current phase is the source of truth for what should be implemented next.
 
 # Current Phase
 
-## Phase 4 — Open-Meteo Networking
+## Phase 5 — City Search
 
 **Status:** 🚧 In Progress
 
-Refer to the **Phase 4 — Open-Meteo Networking** section under Implementation Sequence for detailed scope, testing requirements, and completion criteria.
+Refer to the **Phase 5 — City Search** section under Implementation Sequence for detailed scope, testing requirements, and completion criteria.
 
 ---
 
@@ -71,46 +71,7 @@ Implement the core domain layer independently of SwiftUI, networking, and API re
 
 ## Phase 4 — Open-Meteo Networking
 
-**Status:** 🚧 In Progress
-
-### Objectives
-
-Implement the core domain layer independently of SwiftUI, networking, and Open-Meteo-specific API response models.
-
-Expected areas include:
-
-* Location
-* Forecast
-* Daily forecast
-* Activity
-* Suitability result
-* Rating
-* Activity-specific scoring rules
-* Suitability engine
-
-The suitability engine must remain testable and extensible.
-
-Adding a new activity should primarily require adding the activity and its scoring rule rather than modifying a large centralized conditional or switch statement.
-
-### Testing
-
-Add unit tests for:
-
-* Domain models where appropriate.
-* Rating calculation.
-* Suitability scores.
-* Activity-specific scoring rules.
-* Edge cases.
-
-### Suggested Commit
-
-`feat: add domain models and suitability engine`
-
----
-
-## Phase 4 — Open-Meteo Networking
-
-**Status:** ⏳ Not Started
+**Status:** ✅ Completed
 
 ### Objectives
 
