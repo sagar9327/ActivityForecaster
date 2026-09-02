@@ -9,7 +9,7 @@ import SwiftUI
 struct ActivityForecasterApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            CitySearchView(viewModel: CitySearchViewModel(geocodingService: OpenMeteoGeocodingService(), debounceNanoseconds: 3_00_000))
         }
     }
 }
