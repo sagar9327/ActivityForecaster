@@ -78,9 +78,9 @@ If the feature introduces a new business concept:
 If the feature requires external data:
 
 1. Identify the required API information.
-2. Add or extend DTOs.
+2. Add or extend Response models.
 3. Implement/extend the appropriate service.
-4. Map DTOs into Domain models.
+4. Map Response models into Domain models.
 5. Keep API-specific details inside the Data layer.
 
 Do not expose external API structures to the Presentation layer.
@@ -102,7 +102,7 @@ ViewModels should not:
 * Build raw API requests.
 * Decode JSON.
 * Contain business scoring algorithms.
-* Directly depend on API DTOs.
+* Directly depend on API Response models.
 
 ---
 

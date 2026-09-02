@@ -21,7 +21,7 @@ The Data layer is responsible for:
 * Executing requests.
 * Validating HTTP responses.
 * Decoding JSON.
-* Mapping DTOs to Domain models.
+* Mapping Response models to Domain models.
 * Translating low-level failures into appropriate errors.
 
 ---
@@ -57,19 +57,19 @@ Concrete implementations remain in the Data layer.
 
 ---
 
-## API DTOs
+## API Response Models
 
-API response models must remain in the Data layer.
+API response models must remain in the Data layer (`Data/Responses/`).
 
 For example:
 
 ```text
-GeocodingResponseDTO
-LocationDTO
-ForecastResponseDTO
+GeocodingResponse
+LocationResponse
+ForecastResponse
 ```
 
-Do not expose these DTOs to ViewModels or Domain logic.
+Do not expose these response models to ViewModels or Domain logic.
 
 ---
 
@@ -80,7 +80,7 @@ Always map external API models into application/domain models.
 ```text
 Open-Meteo JSON
       ↓
-DTO
+API Response
       ↓
 Mapper
       ↓
@@ -182,7 +182,7 @@ Do not construct Open-Meteo URLs inside:
 
 If Open-Meteo changes its response structure:
 
-1. Update the DTO.
+1. Update the Response model.
 2. Update mapping.
 3. Update relevant tests.
 4. Avoid changing Domain models unless the application requirement itself has changed.

@@ -148,7 +148,7 @@ Use JSON fixtures to test:
 * Successful decoding.
 * Expected response structures.
 * Optional/missing values where supported.
-* Mapping from DTO to Domain model.
+* Mapping from Response model to Domain model.
 
 Tests should verify that API-specific structures are correctly converted into domain models.
 

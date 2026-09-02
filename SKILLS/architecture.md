@@ -24,42 +24,42 @@ Before implementing a feature or modifying existing functionality:
 
 ## Architectural Layers
 
-The application follows these layers:
+The application follows a feature-oriented MVVM pattern:
 
-### Presentation
+### Features (Presentation & Feature Models)
 
-Contains:
+Contains feature modules with feature-oriented MVVM:
 
-* SwiftUI Views
-* ViewModels
+* Feature Models under `Features/<Feature>/Model/`
+* SwiftUI Views under `Features/<Feature>/View/`
+* Feature ViewModels under `Features/<Feature>/ViewModel/`
 * Presentation state
 
 ### Domain
 
-Contains:
+Contains domain and suitability rules:
 
-* Domain models
-* Business rules
-* Activity definitions
-* Suitability calculation
-* Suitability results
+* Suitability calculation and business rules under `Domain/Suitability/`
+
+### Services
+
+Contains service abstractions and concrete implementations for data operations.
 
 ### Data
 
 Contains:
 
-* API DTOs
-* API services
-* JSON decoding
-* DTO-to-Domain mapping
+* API Responses under `Data/Responses/`
+* Response-to-Domain mapping under `Data/Mappers/`
 
 ### Core
 
-Contains:
+Contains generic infrastructure:
 
-* Shared infrastructure
-* Networking primitives
-* Common utilities
+* Networking (`Core/Networking/`)
+* Extensions (`Core/Extensions/`)
+* Utilities (`Core/Utilities/`)
+* Constants (`Core/Constants/`)
 
 ---
 
@@ -89,7 +89,7 @@ The following are prohibited:
 
 * Domain depending on SwiftUI.
 * Domain depending on URLSession.
-* Domain depending on Open-Meteo DTOs.
+* Domain depending on Open-Meteo API response models.
 * SwiftUI Views directly calling URLSession.
 * SwiftUI Views directly calling Open-Meteo APIs.
 * SwiftUI Views decoding JSON.
@@ -139,7 +139,7 @@ Domain logic must remain independent of UI and networking.
 Data is responsible for:
 
 * API communication.
-* DTOs.
+* API response models.
 * Decoding.
 * Mapping external data into domain models.
 
@@ -149,7 +149,7 @@ Data is responsible for:
 
 Open-Meteo-specific models must remain inside the Data layer.
 
-Do not expose API DTOs to:
+Do not expose API response models to:
 
 * SwiftUI Views.
 * ViewModels.
@@ -158,7 +158,7 @@ Do not expose API DTOs to:
 Use:
 
 ```text
-API DTO
+API Response
    ↓
 Mapper
    ↓
@@ -228,7 +228,7 @@ Verify:
 * Correct architectural layer.
 * Correct dependency direction.
 * No business logic in Views.
-* No API DTO leakage.
+* No API response model leakage.
 * Existing abstractions were considered.
 * New logic is testable.
 * Relevant tests were added or updated.

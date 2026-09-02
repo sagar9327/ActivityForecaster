@@ -86,7 +86,7 @@ ViewModels should depend on service abstractions rather than concrete networking
 
 ### API isolation
 
-Open-Meteo-specific DTOs should not leak into the Domain or Presentation layers.
+Open-Meteo-specific API response models should not leak into the Domain or Presentation layers.
 
 ### Extensibility
 

@@ -67,7 +67,7 @@ Establish and verify the project foundation.
 
 ### Objectives
 
-Implement the core domain layer independently of SwiftUI, networking, and Open-Meteo-specific DTOs.
+Implement the core domain layer independently of SwiftUI, networking, and Open-Meteo-specific API response models.
 
 Expected areas include:
 
@@ -110,8 +110,8 @@ Implement:
 
 * Open-Meteo geocoding service.
 * Open-Meteo forecast service.
-* API DTOs.
-* DTO-to-domain mapping.
+* API Response models.
+* Response-to-domain mapping.
 * Networking abstractions/protocols.
 * Error handling.
 
@@ -123,7 +123,7 @@ Use URLSession and Swift Concurrency.
 
 Add tests for:
 
-* DTO decoding.
+* Response model decoding.
 * Mapping.
 * Networking behavior using mocks where appropriate.
 * Error handling.
@@ -238,7 +238,7 @@ Prioritize:
 1. Suitability/domain logic.
 2. Activity scoring rules.
 3. ViewModels using mocks.
-4. DTO decoding and mapping.
+4. Response model decoding and mapping.
 5. Important UI flows where appropriate.
 
 Tests should be deterministic and should not depend on live APIs.

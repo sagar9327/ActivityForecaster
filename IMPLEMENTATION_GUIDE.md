@@ -10,7 +10,7 @@ The goal is to allow multiple engineers to work on different parts of the applic
 
 # 2. Project Structure
 
-The initial project structure should follow:
+The project structure follows a feature-oriented MVVM pattern with lightweight Domain, Data, Services, and Core separation:
 
 ```text
 WeatherSuitability/
@@ -18,44 +18,56 @@ WeatherSuitability/
 ├── App/
 │   └── WeatherSuitabilityApp.swift
 │
-├── Features/
-│   ├── CitySearch/
-│   │   ├── CitySearchView.swift
-│   │   └── CitySearchViewModel.swift
-│   │
-│   └── Forecast/
-│       ├── ForecastView.swift
-│       └── ForecastViewModel.swift
-│
-├── Domain/
-│   ├── Models/
-│   ├── Activities/
-│   └── Suitability/
-│
-├── Data/
-│   ├── DTOs/
-│   ├── Services/
-│   └── Mappers/
-│
 ├── Core/
 │   ├── Networking/
-│   └── ErrorHandling/
+│   ├── Extensions/
+│   ├── Utilities/
+│   └── Constants/
 │
-└── Resources/
+├── Features/
+│   ├── CitySearch/
+│   │   ├── Model/
+│   │   ├── View/
+│   │   │   └── CitySearchView.swift
+│   │   └── ViewModel/
+│   │       └── CitySearchViewModel.swift
+│   │
+│   └── Forecast/
+│       ├── Model/
+│       ├── View/
+│       │   └── ForecastView.swift
+│       └── ViewModel/
+│           └── ForecastViewModel.swift
+│
+├── Domain/
+│   └── Suitability/
+│
+├── Services/
+│
+├── Data/
+│   ├── Responses/
+│   └── Mappers/
+│
+├── Resources/
+│
+└── Tests/
+    ├── Domain/
+    │   └── Suitability/
+    ├── CitySearch/
+    ├── Forecast/
+    └── Data/
 ```
-
-The exact folder names may evolve slightly during implementation, but the layer boundaries should remain intact.
 
 ---
 
 # 3. Layer Rules
 
-## Presentation
+## Features (Presentation)
 
-Contains:
+Contains feature-oriented MVVM modules:
 
-* SwiftUI Views
-* ViewModels
+* SwiftUI Views under `Features/<Feature>/View/`
+* Feature ViewModels under `Features/<Feature>/ViewModel/`
 * Presentation-specific state
 
 Must not:
@@ -68,39 +80,47 @@ Must not:
 
 ## Domain
 
-Contains:
+Contains shared business and domain concepts:
 
-* Domain models
-* Activity definitions
-* Suitability rules
-* Suitability results
+* Domain models under `Domain/Models/`
+* Suitability business logic and rules under `Domain/Suitability/`
 
 Must not depend on:
 
 * SwiftUI
 * URLSession
-* Open-Meteo DTOs
+* Open-Meteo API response models
+* UI-specific types
 
 The Domain layer should be independently testable.
 
 ---
 
+## Services
+
+Contains service abstractions and implementations used by ViewModels to fetch data or perform operations.
+
+---
+
 ## Data
 
-Contains:
+Contains API data objects and mapping logic:
 
-* API DTOs
-* API services
-* JSON decoding
-* DTO → Domain mapping
+* API Responses under `Data/Responses/`
+* Response → Domain mapping under `Data/Mappers/`
 
-The Data layer is responsible for understanding Open-Meteo's response format.
+The Data layer is responsible for mapping external response formats into domain models.
 
 ---
 
 ## Core
 
-Contains only reusable infrastructure required by multiple parts of the application.
+Contains generic infrastructure required by multiple parts of the application:
+
+* `Networking/`
+* `Extensions/`
+* `Utilities/`
+* `Constants/`
 
 Avoid putting business logic here.
 
@@ -143,17 +163,17 @@ The exact model should be driven by the API fields actually required by the scor
 
 ---
 
-# 5. API DTOs
+# 5. API Response Models
 
-API DTOs should mirror the external API response where necessary.
+API response models should mirror the external API response where necessary.
 
 Example:
 
 ```text
-GeocodingResponseDTO
+GeocodingResponse
  └── results
 
-LocationDTO
+LocationResponse
  ├── name
  ├── latitude
  ├── longitude
@@ -161,18 +181,18 @@ LocationDTO
  └── admin1
 ```
 
-Forecast DTOs should similarly represent the Open-Meteo forecast response.
+Forecast response models should similarly represent the Open-Meteo forecast response.
 
-DTOs must not be passed directly to SwiftUI views.
+Response models must not be passed directly to SwiftUI views.
 
 ---
 
 # 6. Mapping
 
-Use explicit mapping between API DTOs and Domain models.
+Use explicit mapping between API response models and Domain models.
 
 ```text
-Open-Meteo DTO
+Open-Meteo Response
       ↓
 Mapper
       ↓
