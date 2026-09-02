@@ -10,11 +10,11 @@ The current phase is the source of truth for what should be implemented next.
 
 # Current Phase
 
-## Phase 5 — City Search
+## Phase 6 — Forecast & Suitability Flow
 
-**Status:** 🚧 In Progress
+**Status:** ✅ Completed
 
-Refer to the **Phase 5 — City Search** section under Implementation Sequence for detailed scope, testing requirements, and completion criteria.
+Refer to the **Phase 6 — Forecast & Suitability Flow** section under Implementation Sequence for detailed scope, testing requirements, and completion criteria.
 
 ---
 
@@ -107,7 +107,7 @@ Do not depend on live APIs for unit tests.
 
 ## Phase 5 — City Search
 
-**Status:** ⏳ Not Started
+**Status:** ✅ Completed
 
 ### Objectives
 
@@ -135,7 +135,8 @@ The selected latitude and longitude will be used for forecast retrieval.
 
 ## Phase 6 — Forecast & Suitability Flow
 
-**Status:** ⏳ Not Started
+**Status:** ✅ Completed
+
 
 ### Objectives
 

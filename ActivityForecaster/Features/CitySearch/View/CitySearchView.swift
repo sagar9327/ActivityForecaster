@@ -45,14 +45,12 @@ struct CitySearchView: View {
                         .padding()
                 case .results(let locations):
                     List(locations, id: \.self) { location in
-                        Button {
-                            viewModel.selectLocation(location)
-                        } label: {
+                        NavigationLink(value: location) {
                             HStack {
                                 VStack(alignment: .leading) {
                                     Text(location.name)
                                         .font(.headline)
-                                    if let details = locationDetails(for: location) {
+                                    if let details = viewModel.locationSubtitle(for: location) {
                                         Text(details)
                                             .font(.subheadline)
                                             .foregroundColor(.secondary)
@@ -70,12 +68,13 @@ struct CitySearchView: View {
                 Spacer()
             }
             .navigationTitle("City Search")
+            .navigationDestination(for: Location.self) { location in
+                ForecastView(viewModel: ForecastViewModel(location: location))
+                    .onAppear {
+                        viewModel.selectLocation(location)
+                    }
+            }
         }
-    }
-
-    private func locationDetails(for location: Location) -> String? {
-        let parts = [location.administrativeArea, location.country].compactMap { $0 }
-        return parts.isEmpty ? nil : parts.joined(separator: ", ")
     }
 }
 

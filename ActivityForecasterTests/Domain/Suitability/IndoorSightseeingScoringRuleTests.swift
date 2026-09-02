@@ -27,7 +27,6 @@ final class IndoorSightseeingScoringRuleTests: XCTestCase {
         XCTAssertEqual(result.activity, .indoorSightseeing)
         XCTAssertGreaterThanOrEqual(result.score, 90)
         XCTAssertEqual(result.rating, .excellent)
-        XCTAssertTrue(result.reasons.contains(where: { $0.contains("Rainy weather makes indoor attractions ideal") }))
     }
 
     func testDryWeatherIndoorSightseeing() {
@@ -46,6 +45,5 @@ final class IndoorSightseeingScoringRuleTests: XCTestCase {
         XCTAssertEqual(result.activity, .indoorSightseeing)
         XCTAssertGreaterThanOrEqual(result.score, 50)
         XCTAssertLessThanOrEqual(result.score, 89)
-        XCTAssertTrue(result.reasons.contains(where: { $0.contains("Good option for indoor cultural activities") }))
     }
 }

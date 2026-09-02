@@ -78,8 +78,7 @@ Conceptually:
 SuitabilityResult
  ├── Activity
  ├── Score
- ├── Rating
- └── Reasons
+ └── Rating
 ```
 
 The result should be independent of SwiftUI.

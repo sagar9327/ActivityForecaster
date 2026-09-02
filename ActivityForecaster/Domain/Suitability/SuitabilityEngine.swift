@@ -23,9 +23,14 @@ final class SuitabilityEngine: Sendable {
         rules.map { $0.calculateSuitability(for: dailyForecast) }
     }
 
-    /// Evaluates suitability results for a daily forecast sorted by highest score first.
+    /// Evaluates suitability results for a daily forecast sorted by highest score first with deterministic tie-breaking.
     func calculateRankedSuitability(for dailyForecast: DailyForecast) -> [SuitabilityResult] {
-        calculateSuitability(for: dailyForecast).sorted { $0.score > $1.score }
+        calculateSuitability(for: dailyForecast).sorted { lhs, rhs in
+            if lhs.score != rhs.score {
+                return lhs.score > rhs.score
+            }
+            return lhs.activity.rawValue < rhs.activity.rawValue
+        }
     }
 
     /// Evaluates multi-day suitability results mapped by forecast date.
@@ -37,3 +42,4 @@ final class SuitabilityEngine: Sendable {
         return resultsByDate
     }
 }
+

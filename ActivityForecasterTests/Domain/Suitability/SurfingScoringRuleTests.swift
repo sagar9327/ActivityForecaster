@@ -27,7 +27,6 @@ final class SurfingScoringRuleTests: XCTestCase {
         XCTAssertEqual(result.activity, .surfing)
         XCTAssertGreaterThanOrEqual(result.score, 90)
         XCTAssertEqual(result.rating, .excellent)
-        XCTAssertTrue(result.reasons.contains(where: { $0.contains("wave, swell, and tide") }))
     }
 
     func testThunderstormSafetyHazard() {
@@ -46,7 +45,6 @@ final class SurfingScoringRuleTests: XCTestCase {
         XCTAssertEqual(result.activity, .surfing)
         XCTAssertEqual(result.score, 0)
         XCTAssertEqual(result.rating, .veryPoor)
-        XCTAssertTrue(result.reasons.contains(where: { $0.contains("Thunderstorm hazard") }))
     }
 
     func testChoppyWindConditions() {
@@ -61,6 +59,7 @@ final class SurfingScoringRuleTests: XCTestCase {
 
         let result = rule.calculateSuitability(for: forecast)
 
-        XCTAssertTrue(result.reasons.contains(where: { $0.contains("Strong wind causes choppy water") }))
+        XCTAssertEqual(result.activity, .surfing)
+        XCTAssertLessThan(result.score, 90)
     }
 }

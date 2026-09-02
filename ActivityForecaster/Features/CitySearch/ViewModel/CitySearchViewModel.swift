@@ -89,4 +89,10 @@ final class CitySearchViewModel: ObservableObject {
         searchQuery = ""
         state = .idle
     }
+
+    /// Formats location administrative area and country subtitle for display.
+    func locationSubtitle(for location: Location) -> String? {
+        let parts = [location.administrativeArea, location.country].compactMap { $0 }
+        return parts.isEmpty ? nil : parts.joined(separator: ", ")
+    }
 }

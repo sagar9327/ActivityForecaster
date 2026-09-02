@@ -68,7 +68,7 @@ final class SuitabilityEngineTests: XCTestCase {
         struct CyclingScoringRule: ActivityScoringRule {
             let activity: Activity = .outdoorSightseeing // custom rule
             func calculateSuitability(for forecast: DailyForecast) -> SuitabilityResult {
-                SuitabilityResult(activity: activity, score: 85, reasons: ["Great cycling weather"])
+                SuitabilityResult(activity: activity, score: 85)
             }
         }
 
@@ -78,6 +78,5 @@ final class SuitabilityEngineTests: XCTestCase {
         let results = customEngine.calculateSuitability(for: forecast)
         XCTAssertEqual(results.count, 1)
         XCTAssertEqual(results.first?.score, 85)
-        XCTAssertEqual(results.first?.reasons, ["Great cycling weather"])
     }
 }

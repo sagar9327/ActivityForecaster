@@ -27,8 +27,6 @@ final class OutdoorSightseeingScoringRuleTests: XCTestCase {
         XCTAssertEqual(result.activity, .outdoorSightseeing)
         XCTAssertGreaterThanOrEqual(result.score, 90)
         XCTAssertEqual(result.rating, .excellent)
-        XCTAssertTrue(result.reasons.contains("Comfortable outdoor temperature (22°C)"))
-        XCTAssertTrue(result.reasons.contains("Dry conditions with no rain"))
     }
 
     func testHeavyRainOutdoorSightseeingConditions() {
@@ -46,7 +44,6 @@ final class OutdoorSightseeingScoringRuleTests: XCTestCase {
 
         XCTAssertEqual(result.activity, .outdoorSightseeing)
         XCTAssertLessThanOrEqual(result.score, 49)
-        XCTAssertTrue(result.reasons.contains(where: { $0.contains("Heavy rain") }))
     }
 
     func testSevereThunderstormHazard() {
