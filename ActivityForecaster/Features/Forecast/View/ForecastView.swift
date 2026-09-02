@@ -57,22 +57,7 @@ struct ForecastView: View {
             case .success(let data):
                 List {
                     ForEach(data.dailySuitabilities) { daily in
-                        VStack(alignment: .leading, spacing: 6) {
-                            Text(daily.formattedDate)
-                                .font(.subheadline)
-                                .bold()
-                            ForEach(daily.rankedResults) { result in
-                                HStack {
-                                    Text(result.activity.displayName)
-                                        .font(.caption)
-                                    Spacer()
-                                    Text("\(result.score) (\(result.rating.rawValue))")
-                                        .font(.caption)
-                                        .foregroundColor(.secondary)
-                                }
-                            }
-                        }
-                        .padding(.vertical, 4)
+                        DailyForecastRow(daily: daily)
                     }
                 }
             }
@@ -84,5 +69,35 @@ struct ForecastView: View {
                 viewModel.loadForecast()
             }
         }
+    }
+}
+
+#Preview("Forecast View - Loaded") {
+    let location = Location(name: "Tokyo", country: "Japan", administrativeArea: "Tokyo", latitude: 35.6762, longitude: 139.6503)
+    let now = Date()
+    let forecast = Forecast(
+        location: location,
+        dailyForecasts: [
+            DailyForecast(date: now, temperatureMax: 24.0, temperatureMin: 18.0, precipitationSum: 0.0, snowfallSum: 0.0, windSpeedMax: 12.0, weatherCode: 0),
+            DailyForecast(date: now.addingTimeInterval(86400), temperatureMax: -4.0, temperatureMin: -10.0, precipitationSum: 0.0, snowfallSum: 15.0, windSpeedMax: 25.0, weatherCode: 73)
+        ]
+    )
+    let mockService = PreviewForecastService(result: .success(forecast))
+
+    let vm = ForecastViewModel(location: location, forecastService: mockService)
+    vm.loadForecast()
+    return NavigationStack {
+        ForecastView(viewModel: vm)
+    }
+}
+
+#Preview("Forecast View - Error") {
+    let location = Location(name: "Tokyo", country: "Japan", administrativeArea: "Tokyo", latitude: 35.6762, longitude: 139.6503)
+    let mockService = PreviewForecastService(result: .failure(NetworkError.httpError(statusCode: 500)))
+
+    let vm = ForecastViewModel(location: location, forecastService: mockService)
+    vm.loadForecast()
+    return NavigationStack {
+        ForecastView(viewModel: vm)
     }
 }

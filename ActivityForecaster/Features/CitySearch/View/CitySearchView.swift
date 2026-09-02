@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+
 struct CitySearchView: View {
     @StateObject var viewModel: CitySearchViewModel
 
@@ -13,59 +14,86 @@ struct CitySearchView: View {
 
     var body: some View {
         NavigationStack {
-            VStack(spacing: 16) {
-                HStack {
-                    TextField("Search city...", text: $viewModel.searchQuery)
-                        .textFieldStyle(.roundedBorder)
+            VStack(spacing: 0) {
+                // Search Input Header
+                HStack(spacing: 8) {
+                    Image(systemName: "magnifyingglass")
+                        .foregroundColor(.secondary)
+
+                    TextField("Search city or town...", text: $viewModel.searchQuery)
+                        .textFieldStyle(.plain)
                         .autocorrectionDisabled()
+                        .textInputAutocapitalization(.words)
+                        .submitLabel(.search)
+                        .accessibilityLabel("Search city or town")
 
                     if !viewModel.searchQuery.isEmpty {
-                        Button("Clear") {
+                        Button(action: {
                             viewModel.clearSearch()
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.secondary)
                         }
+                        .buttonStyle(.plain)
+                        .accessibilityLabel("Clear search text")
                     }
                 }
+                .padding(.horizontal, 12)
+                .padding(.vertical, 10)
+                .background(Color(uiColor: .tertiarySystemFill))
+                .cornerRadius(10)
                 .padding(.horizontal)
+                .padding(.vertical, 8)
 
+                Divider()
+
+                // Presentation State Switch
                 switch viewModel.state {
                 case .idle:
-                    Text("Enter a city name to search")
-                        .foregroundColor(.secondary)
-                        .padding()
+                    EmptyStateView(
+                        iconName: "building.2.crop.circle",
+                        title: "Find Weather Suitability",
+                        message: "Enter a city or town name above to search for locations and activity forecasts."
+                    )
+
                 case .loading:
-                    ProgressView("Searching cities...")
-                        .padding()
+                    VStack(spacing: 12) {
+                        ProgressView()
+                            .scaleEffect(1.2)
+                        Text("Searching locations...")
+                            .font(.subheadline)
+                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+
                 case .empty:
-                    Text("No matching cities found")
-                        .foregroundColor(.secondary)
-                        .padding()
+                    EmptyStateView(
+                        iconName: "magnifyingglass",
+                        title: "No Cities Found",
+                        message: "No matching cities were found for '\(viewModel.searchQuery)'. Try checking spelling or search for another location."
+                    )
+
                 case .error(let message):
-                    Text("Error: \(message)")
-                        .foregroundColor(.red)
-                        .padding()
+                    ErrorStateView(
+                        title: "Search Error",
+                        message: message,
+                        retryAction: {
+                            viewModel.queryDidChange(viewModel.searchQuery)
+                        }
+                    )
+
                 case .results(let locations):
                     List(locations, id: \.self) { location in
                         NavigationLink(value: location) {
-                            HStack {
-                                VStack(alignment: .leading) {
-                                    Text(location.name)
-                                        .font(.headline)
-                                    if let details = viewModel.locationSubtitle(for: location) {
-                                        Text(details)
-                                            .font(.subheadline)
-                                            .foregroundColor(.secondary)
-                                    }
-                                }
-                                Spacer()
-                                if viewModel.selectedLocation == location {
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(.blue)
-                                }
-                            }
+                            SearchResultRow(
+                                location: location,
+                                subtitle: viewModel.locationSubtitle(for: location),
+                                isSelected: viewModel.selectedLocation == location
+                            )
                         }
                     }
+                    .listStyle(.plain)
                 }
-                Spacer()
             }
             .navigationTitle("City Search")
             .navigationDestination(for: Location.self) { location in
@@ -78,3 +106,26 @@ struct CitySearchView: View {
     }
 }
 
+#Preview("City Search - Results") {
+    let mockService = PreviewGeocodingService(locationsToReturn: [
+        Location(name: "London", country: "United Kingdom", administrativeArea: "England", latitude: 51.5074, longitude: -0.1278),
+        Location(name: "Tokyo", country: "Japan", administrativeArea: "Tokyo", latitude: 35.6762, longitude: 139.6503),
+        Location(name: "Paris", country: "France", administrativeArea: "Île-de-France", latitude: 48.8566, longitude: 2.3522)
+    ])
+    let vm = CitySearchViewModel(geocodingService: mockService, debounceNanoseconds: 0)
+    vm.searchQuery = "London"
+    return CitySearchView(viewModel: vm)
+}
+
+#Preview("City Search - Idle") {
+    let mockService = PreviewGeocodingService()
+    let vm = CitySearchViewModel(geocodingService: mockService)
+    return CitySearchView(viewModel: vm)
+}
+
+#Preview("City Search - Empty") {
+    let mockService = PreviewGeocodingService(locationsToReturn: [])
+    let vm = CitySearchViewModel(geocodingService: mockService, debounceNanoseconds: 0)
+    vm.searchQuery = "UnknownPlace"
+    return CitySearchView(viewModel: vm)
+}
