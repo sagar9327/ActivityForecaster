@@ -41,6 +41,7 @@ final class ForecastViewModelTests: XCTestCase {
             forecastService: mockService,
             suitabilityEngine: suitabilityEngine
         )
+        trackForMemoryLeaks(viewModel)
 
         XCTAssertEqual(viewModel.state, .idle)
 
@@ -257,6 +258,17 @@ final class ForecastViewModelTests: XCTestCase {
 
         viewModel.cancelForecast()
         XCTAssertTrue(initialTask?.isCancelled == true)
+    }
+
+    // H. Memory Leak Detection Verification Test
+    func testMemoryLeak() {
+        var instance: ForecastViewModel? = ForecastViewModel(
+            location: testLocation,
+            forecastService: mockService,
+            suitabilityEngine: suitabilityEngine
+        )
+        // Track instance for memory leaks
+        trackForMemoryLeaks(instance!)
     }
 
     // Helper method

@@ -126,6 +126,20 @@ Test:
 * Error state.
 * Retry behavior where implemented.
 * Cancellation/stale-result behavior where relevant.
+* Memory leak safety via `trackForMemoryLeaks(viewModel)`.
+
+### Memory Leak Verification
+
+Every ViewModel unit test suite must include a `testMemoryLeak()` test method using `trackForMemoryLeaks(_:)`:
+
+```swift
+func testMemoryLeak() {
+    let viewModel = CitySearchViewModel(geocodingService: mockService)
+    trackForMemoryLeaks(viewModel)
+}
+```
+
+This automatically asserts that ViewModel instances are cleanly deallocated from memory upon test teardown without retain cycles.
 
 Example:
 

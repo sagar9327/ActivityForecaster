@@ -218,8 +218,22 @@ The project features comprehensive automated test coverage with **zero live netw
 - **Domain Scoring Tests**: Exhaustive boundary tests verifying score calculations and clamping (0 and 100) for all scoring rules.
 - **Mapper & Parsing Tests**: ISO8601 date parsing, parallel response array mismatch handling, and nil optional field fallback tests.
 - **Networking Tests**: `URLSessionHTTPClientTests` utilizing `MockURLProtocol` to test 200 OK, non-2xx HTTP status codes, empty data, malformed JSON, and offline network failures.
-- **ViewModel Tests**: Search query debouncing, task cancellation, stale response protection, error propagation, and state transitions.
+- **ViewModel & Memory Leak Tests**: Search query debouncing, task cancellation, stale response protection, state transitions, and automated memory leak tracking using `trackForMemoryLeaks(_:)` to assert zero retain cycles on teardown.
 - **UI Automation Tests**: Navigation bar verification, text field entry, clear button interaction, and launch performance monitoring.
+
+### 🧹 Memory Leak Detection Guideline
+Every ViewModel unit test suite includes automated memory leak verification using the `trackForMemoryLeaks(_:)` test helper:
+
+```swift
+func testMemoryLeak() {
+    let instance = ForecastViewModel(
+        location: testLocation,
+        forecastService: mockService,
+        suitabilityEngine: suitabilityEngine
+    )
+    trackForMemoryLeaks(instance)
+}
+```
 
 ---
 

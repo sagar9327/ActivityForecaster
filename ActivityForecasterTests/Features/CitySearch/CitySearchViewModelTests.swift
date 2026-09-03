@@ -29,6 +29,7 @@ final class CitySearchViewModelTests: XCTestCase {
         let mockService = MockGeocodingService()
         mockService.locationsToReturn = [sampleLondon]
         let viewModel = CitySearchViewModel(geocodingService: mockService, debounceNanoseconds: 0)
+        trackForMemoryLeaks(viewModel)
 
         viewModel.searchQuery = "London"
         await viewModel.searchTask?.value
