@@ -42,6 +42,7 @@ struct ErrorStateView: View {
                         .fontWeight(.semibold)
                 }
                 .buttonStyle(.borderedProminent)
+                .accessibilityIdentifier("retryButton")
                 .padding(.top, 4)
             }
         }

@@ -23,6 +23,7 @@ struct DailyForecastRow: View {
                         .font(.caption)
                         .foregroundColor(.secondary)
                 }
+                .accessibilityIdentifier("activityResult_\(result.activity.rawValue)")
             }
         }
         .padding(.vertical, 4)

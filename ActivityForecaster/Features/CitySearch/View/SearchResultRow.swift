@@ -24,6 +24,7 @@ struct SearchResultRow: View {
             }
             Spacer()
         }
+        .accessibilityIdentifier("citySearchResultRow_\(location.name)")
     }
 }
 

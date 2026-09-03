@@ -19,10 +19,18 @@ struct DailySuitability: Equatable, Sendable, Identifiable {
     let date: Date
     let rankedResults: [SuitabilityResult]
 
-    var formattedDate: String {
+    private static let mediumDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
-        return formatter.string(from: date)
+        return formatter
+    }()
+
+    static func formattedDate(for date: Date) -> String {
+        mediumDateFormatter.string(from: date)
+    }
+
+    var formattedDate: String {
+        Self.formattedDate(for: date)
     }
 }
 
@@ -104,9 +112,7 @@ final class ForecastViewModel: ObservableObject {
 
     /// Formats a date into a medium presentation style string.
     func formattedDate(_ date: Date) -> String {
-        let formatter = DateFormatter()
-        formatter.dateStyle = .medium
-        return formatter.string(from: date)
+        DailySuitability.formattedDate(for: date)
     }
 
     /// Cancels any in-flight forecast fetch task.

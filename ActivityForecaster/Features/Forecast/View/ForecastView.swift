@@ -64,6 +64,7 @@ struct ForecastView: View {
             Spacer()
         }
         .navigationTitle("Activity Suitability")
+        .accessibilityIdentifier("forecastScreen")
         .onAppear {
             if viewModel.state == .idle {
                 viewModel.loadForecast()

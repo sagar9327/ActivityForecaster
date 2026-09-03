@@ -25,7 +25,7 @@ struct CitySearchView: View {
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.words)
                         .submitLabel(.search)
-                        .accessibilityLabel("Search city or town")
+                        .accessibilityIdentifier("citySearchTextField")
 
                     if !viewModel.searchQuery.isEmpty {
                         Button(action: {
@@ -33,9 +33,11 @@ struct CitySearchView: View {
                         }) {
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundColor(.secondary)
+                                .frame(minWidth: 44, minHeight: 44)
+                                .contentShape(Rectangle())
                         }
                         .buttonStyle(.plain)
-                        .accessibilityLabel("Clear search text")
+                        .accessibilityIdentifier("clearSearchButton")
                     }
                 }
                 .padding(.horizontal, 12)
