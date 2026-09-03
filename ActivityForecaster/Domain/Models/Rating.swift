@@ -44,3 +44,25 @@ enum Rating: String, Equatable, Hashable, Sendable, Comparable {
         lhs.sortOrder < rhs.sortOrder
     }
 }
+
+#if canImport(SwiftUI)
+import SwiftUI
+
+extension Rating {
+    /// Semantic UI badge background color for rating classification.
+    var color: Color {
+        switch self {
+        case .excellent:
+            return .green
+        case .good:
+            return .blue
+        case .fair:
+            return .orange
+        case .poor:
+            return .purple
+        case .veryPoor:
+            return .red
+        }
+    }
+}
+#endif

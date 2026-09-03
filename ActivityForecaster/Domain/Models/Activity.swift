@@ -26,4 +26,18 @@ enum Activity: String, CaseIterable, Identifiable, Equatable, Hashable, Sendable
             return "Indoor Sightseeing"
         }
     }
+
+    /// System image (SF Symbol) representation for the activity.
+    var iconName: String {
+        switch self {
+        case .skiing:
+            return "figure.skiing.downhill"
+        case .surfing:
+            return "figure.surfing"
+        case .outdoorSightseeing:
+            return "figure.walk"
+        case .indoorSightseeing:
+            return "building.columns.fill"
+        }
+    }
 }

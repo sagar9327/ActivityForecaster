@@ -27,21 +27,19 @@ struct CitySearchView: View {
                         .submitLabel(.search)
                         .accessibilityIdentifier("citySearchTextField")
 
-                    if !viewModel.searchQuery.isEmpty {
-                        Button(action: {
-                            viewModel.clearSearch()
-                        }) {
-                            Image(systemName: "xmark.circle.fill")
-                                .foregroundColor(.secondary)
-                                .frame(minWidth: 44, minHeight: 44)
-                                .contentShape(Rectangle())
-                        }
-                        .buttonStyle(.plain)
-                        .accessibilityIdentifier("clearSearchButton")
+                    Button(action: {
+                        viewModel.clearSearch()
+                    }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(.secondary)
                     }
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("clearSearchButton")
+                    .opacity(viewModel.searchQuery.isEmpty ? 0 : 1)
+                    .disabled(viewModel.searchQuery.isEmpty)
                 }
+                .frame(height: 36)
                 .padding(.horizontal, 12)
-                .padding(.vertical, 10)
                 .background(Color(uiColor: .tertiarySystemFill))
                 .cornerRadius(10)
                 .padding(.horizontal)

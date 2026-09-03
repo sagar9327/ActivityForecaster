@@ -11,7 +11,11 @@ struct SearchResultRow: View {
     let isSelected: Bool
 
     var body: some View {
-        HStack {
+        HStack(spacing: 12) {
+            Image(systemName: "mappin.circle.fill")
+                .font(.title3)
+                .foregroundColor(.accentColor)
+
             VStack(alignment: .leading, spacing: 2) {
                 Text(location.name)
                     .font(.headline)
