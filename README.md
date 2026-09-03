@@ -31,6 +31,18 @@ The application integrates with the **Open-Meteo Geocoding API** for location se
 
 ---
 
+## Screenshots
+
+<div align="center">
+
+| City Search (Idle) | Search Results | 7-Day Activity Forecast |
+| :---: | :---: | :---: |
+| <img src="assets/screenshots/city_search_idle.png" width="250" alt="City Search Idle State" /> | <img src="assets/screenshots/city_search_results.png" width="250" alt="Search Results List" /> | <img src="assets/screenshots/activity_suitability_forecast.png" width="250" alt="7-Day Activity Suitability Forecast" /> |
+
+</div>
+
+---
+
 ## Technology Stack
 
 - **Platform**: iOS 18.0+
