@@ -193,10 +193,11 @@ The application uses Open-Meteo public endpoints (free tier, no API key required
 
 ## Setup & Running the Project
 
-### Requirements
-- **Xcode 16.0+**
-- **iOS 18.0+ Simulator or Device**
-- **macOS Sequoia or later**
+### Requirements & Deployment Target
+- **Xcode Version**: Xcode 16.0+
+- **Minimum Deployment Target**: **iOS 16.0+**
+- **Recommended Simulator / Device**: iOS 18.0+ (e.g. iPhone 16)
+- **macOS**: macOS Sequoia or later
 
 ### Steps
 1. Clone or download the repository:
@@ -205,9 +206,9 @@ The application uses Open-Meteo public endpoints (free tier, no API key required
    cd ActivityForecaster/Untitled
    ```
 2. Open `ActivityForecaster.xcodeproj` in Xcode.
-3. Select the `ActivityForecaster` scheme and an iOS 18+ simulator target (e.g. iPhone 16).
+3. Select the `ActivityForecaster` scheme and an iOS 16.0+ simulator target (e.g. iPhone 16).
 4. Press `Cmd + R` to build and run the application.
-5. Press `Cmd + U` to execute the full unit and UI test suite.
+5. Press `Cmd + U` to execute the full unit test suite.
 
 ---
 
