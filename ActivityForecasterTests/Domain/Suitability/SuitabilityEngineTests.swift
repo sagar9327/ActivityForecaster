@@ -50,6 +50,33 @@ final class SuitabilityEngineTests: XCTestCase {
         }
     }
 
+    func testTieBreakingAlphabeticalByActivityRawValueWhenScoresAreEqual() {
+        struct MockRuleA: ActivityScoringRule {
+            let activity: Activity = .surfing // rawValue "Surfing"
+            func calculateSuitability(for forecast: DailyForecast) -> SuitabilityResult {
+                SuitabilityResult(activity: activity, score: 75, date: forecast.date)
+            }
+        }
+
+        struct MockRuleB: ActivityScoringRule {
+            let activity: Activity = .skiing // rawValue "Skiing"
+            func calculateSuitability(for forecast: DailyForecast) -> SuitabilityResult {
+                SuitabilityResult(activity: activity, score: 75, date: forecast.date)
+            }
+        }
+
+        let customEngine = SuitabilityEngine(rules: [MockRuleA(), MockRuleB()])
+        let forecast = DailyForecast(date: now, temperatureMax: 20.0, temperatureMin: 15.0)
+
+        let ranked = customEngine.calculateRankedSuitability(for: forecast)
+
+        XCTAssertEqual(ranked.count, 2)
+        XCTAssertEqual(ranked[0].score, 75)
+        XCTAssertEqual(ranked[1].score, 75)
+        XCTAssertEqual(ranked[0].activity, .skiing, "Skiing rawValue 'Skiing' should sort before Surfing rawValue 'Surfing'")
+        XCTAssertEqual(ranked[1].activity, .surfing)
+    }
+
     func testMultiDayForecastSuitability() {
         let location = Location(name: "London", latitude: 51.5074, longitude: -0.1278)
         let day1 = DailyForecast(date: now, temperatureMax: 22.0, temperatureMin: 18.0)
@@ -63,12 +90,20 @@ final class SuitabilityEngineTests: XCTestCase {
         XCTAssertEqual(multiDayResults[day2.date]?.count, 4)
     }
 
+    func testEmptyDailyForecastsInMultiDayForecast() {
+        let location = Location(name: "London", latitude: 51.5074, longitude: -0.1278)
+        let emptyForecast = Forecast(location: location, dailyForecasts: [])
+
+        let results = engine.calculateSuitability(for: emptyForecast)
+        XCTAssertTrue(results.isEmpty)
+    }
+
     // Extensibility Test: Adding a new activity without changing engine core
     func testExtensibilityWithCustomScoringRule() {
         struct CyclingScoringRule: ActivityScoringRule {
             let activity: Activity = .outdoorSightseeing // custom rule
             func calculateSuitability(for forecast: DailyForecast) -> SuitabilityResult {
-                SuitabilityResult(activity: activity, score: 85)
+                SuitabilityResult(activity: activity, score: 85, date: forecast.date)
             }
         }
 

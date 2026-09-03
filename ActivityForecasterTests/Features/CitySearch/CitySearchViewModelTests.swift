@@ -137,4 +137,18 @@ final class CitySearchViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.searchQuery, "")
         XCTAssertEqual(viewModel.state, .idle)
     }
+
+    func testLocationSubtitleFormatting() {
+        let mockService = MockGeocodingService()
+        let viewModel = CitySearchViewModel(geocodingService: mockService, debounceNanoseconds: 0)
+
+        let locFull = Location(name: "City", country: "Country", administrativeArea: "Admin", latitude: 0, longitude: 0)
+        XCTAssertEqual(viewModel.locationSubtitle(for: locFull), "Admin, Country")
+
+        let locCountryOnly = Location(name: "City", country: "Country", administrativeArea: nil, latitude: 0, longitude: 0)
+        XCTAssertEqual(viewModel.locationSubtitle(for: locCountryOnly), "Country")
+
+        let locNone = Location(name: "City", country: nil, administrativeArea: nil, latitude: 0, longitude: 0)
+        XCTAssertNil(viewModel.locationSubtitle(for: locNone))
+    }
 }

@@ -40,6 +40,25 @@ final class GeocodingMapperTests: XCTestCase {
         XCTAssertEqual(locations[1].country, "France")
     }
 
+    func testMapGeocodingResponseWithNilOptionalFields() {
+        let item = GeocodingResponse.LocationResponse(
+            id: 99,
+            name: "Unknown Island",
+            latitude: 0.0,
+            longitude: 0.0,
+            country: nil,
+            admin1: nil
+        )
+        let response = GeocodingResponse(results: [item])
+
+        let locations = GeocodingMapper.map(response)
+
+        XCTAssertEqual(locations.count, 1)
+        XCTAssertEqual(locations[0].name, "Unknown Island")
+        XCTAssertNil(locations[0].country)
+        XCTAssertNil(locations[0].administrativeArea)
+    }
+
     func testMapNilResponseToEmptyLocations() {
         let response = GeocodingResponse(results: nil)
         let locations = GeocodingMapper.map(response)

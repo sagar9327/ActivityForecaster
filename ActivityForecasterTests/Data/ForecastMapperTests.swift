@@ -64,6 +64,36 @@ final class ForecastMapperTests: XCTestCase {
         XCTAssertEqual(components.year, 2026)
         XCTAssertEqual(components.month, 9)
         XCTAssertEqual(components.day, 2)
+
+        XCTAssertNil(ForecastMapper.parseDate("invalid-date-string"))
+    }
+
+    func testInvalidDateInResponseThrowsError() {
+        let daily = ForecastResponse.DailyResponse(
+            time: ["INVALID_DATE_FORMAT"],
+            weatherCode: [0],
+            temperature2mMax: [22.5],
+            temperature2mMin: [14.0],
+            precipitationSum: [0.0],
+            snowfallSum: [0.0],
+            windSpeed10mMax: [12.4]
+        )
+        let response = ForecastResponse(
+            latitude: 51.5,
+            longitude: -0.12,
+            timezone: "GMT",
+            dailyUnits: nil,
+            daily: daily
+        )
+
+        XCTAssertThrowsError(try ForecastMapper.map(response, for: sampleLocation)) { error in
+            guard let netErr = error as? NetworkError,
+                  case .mappingError(let reason) = netErr else {
+                XCTFail("Expected NetworkError.mappingError, got \(error)")
+                return
+            }
+            XCTAssertTrue(reason.contains("Invalid date"))
+        }
     }
 
     func testMismatchedParallelArraysThrowsError() {

@@ -140,7 +140,7 @@ final class ForecastViewModelTests: XCTestCase {
         }
     }
 
-    // E. Location handling
+    // E. Location handling & Updates
     func testForecastServiceReceivesCorrectLocationAndCoordinates() async {
         let forecast = makeSampleForecast(for: testLocation)
         mockService.result = .success(forecast)
@@ -158,6 +158,40 @@ final class ForecastViewModelTests: XCTestCase {
         XCTAssertEqual(mockService.requestedLocation?.latitude, 35.6762)
         XCTAssertEqual(mockService.requestedLocation?.longitude, 139.6503)
         XCTAssertEqual(mockService.requestedLocation?.name, "Tokyo")
+    }
+
+    func testUpdateLocationChangesLocationAndReloadsForecast() async {
+        let forecast = makeSampleForecast(for: testLocation)
+        mockService.result = .success(forecast)
+
+        let viewModel = ForecastViewModel(
+            location: testLocation,
+            forecastService: mockService,
+            suitabilityEngine: suitabilityEngine
+        )
+
+        let newLocation = Location(name: "Osaka", country: "Japan", administrativeArea: "Osaka", latitude: 34.6937, longitude: 135.5023)
+        viewModel.updateLocation(newLocation)
+
+        XCTAssertEqual(viewModel.location, newLocation)
+        XCTAssertEqual(viewModel.state, .loading)
+
+        await viewModel.fetchTask?.value
+
+        XCTAssertEqual(mockService.requestedLocation, newLocation)
+    }
+
+    func testLocationSubtitleAndDateFormatting() {
+        let viewModel = ForecastViewModel(
+            location: testLocation,
+            forecastService: mockService,
+            suitabilityEngine: suitabilityEngine
+        )
+
+        XCTAssertEqual(viewModel.locationSubtitle, "Tokyo, Japan")
+
+        let date = Date(timeIntervalSince1970: 1700000000)
+        XCTAssertFalse(viewModel.formattedDate(date).isEmpty)
     }
 
     // F. Loading state transitions

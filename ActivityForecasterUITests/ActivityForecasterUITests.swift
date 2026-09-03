@@ -21,7 +21,7 @@ final class ActivityForecasterUITests: XCTestCase {
     }
 
     @MainActor
-    func testSearchFieldAcceptsInput() throws {
+    func testSearchFieldAcceptsInputAndClearButton() throws {
         let app = XCUIApplication()
         app.launch()
 
@@ -32,6 +32,12 @@ final class ActivityForecasterUITests: XCTestCase {
         searchField.typeText("London")
 
         XCTAssertEqual(searchField.value as? String, "London")
+
+        let clearButton = app.buttons["Clear search"]
+        if clearButton.exists {
+            clearButton.tap()
+            XCTAssertEqual(searchField.value as? String, "Search city or town...")
+        }
     }
 
     @MainActor
